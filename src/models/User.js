@@ -4,7 +4,8 @@ import {
 } from 'mongoose';
 import {
     compare,
-    hash
+    hash,
+    genSalt
 } from 'bcrypt-nodejs'
 import {
     sign
@@ -31,26 +32,29 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    verfied: {
-        type: Boolean,
-        default: false
-    },
-    verificationCode: {
-        type: String,
-        required: false
-    },
     role: {
         type: String,
         required: true
     }
 }, {
-    timeStamps: true
+    timestamps: true
 })
 
 UserSchema.pre('save', async function (next) {
     let user = this;
     if (!user.isModified("password")) return next();
-    user.password = await hash(user.password, 10)
+    await genSalt(10, (err, salt)=>{
+        if (err) {
+            return next(err)
+        }
+        user.password = hash(user.password, salt, null, (err, hash) =>{
+            if (err) {
+                return next(err);
+            }
+            user.password = hash
+        } )
+    })
+    
     next();
 });
 

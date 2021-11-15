@@ -21,12 +21,31 @@ const router = Router();
 
 router.post('/api/register', RegisterValidations, Validator, async (req, res) => {
     // Check the username is taken
-    let user = await User.findOne({ username })
+    let user = await User.findOne({ username: req.username })
     if(user) {
         return res.status(400).json({
             success: false,
             message: "Username is already in use"
         })
     }
+    let email = await User.findOne({ email: req.email })
+    if(email) {
+        return res.status(400).json({
+            success: false,
+            message: "email is already in use"
+        })
+    }
+    user = new User({
+        ...req.body
+    })
+    await user.save((err, user)=> {
+        if (err) {
+            res.status(500).json(err)
+        } 
+        res.status(201).json(user)
+    });
+    
+    
+    
 })
 export default router;

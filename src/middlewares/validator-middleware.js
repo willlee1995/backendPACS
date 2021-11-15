@@ -11,7 +11,6 @@ const validationMiddleware = (req, res, next) => {
                 errors: errors.array()
             })
         }
-        console.log("No error detected")
         next()
 }
 
