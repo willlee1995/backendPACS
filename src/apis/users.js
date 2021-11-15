@@ -20,6 +20,13 @@ const router = Router();
  */
 
 router.post('/api/register', RegisterValidations, Validator, async (req, res) => {
-
+    // Check the username is taken
+    let user = await User.findOne({ username })
+    if(user) {
+        return res.status(400).json({
+            success: false,
+            message: "Username is already in use"
+        })
+    }
 })
 export default router;

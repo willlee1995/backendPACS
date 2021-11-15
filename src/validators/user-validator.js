@@ -8,6 +8,7 @@ const password = check('password', "Password is required of minimum length of 6"
     min: 6
 });
 const email = check('email', "Please provide a valid email address").isEmail();
+const role = check('role', "Only Administrator can register a new user").custom((value, { req }) => value === "admin")
 
-export const RegisterValidations = [password, name, username, email];
+export const RegisterValidations = [password, name, username, email, role];
 export const AuthenticateValidations = [username, password]

@@ -3,10 +3,8 @@ import {
 } from 'express-validator';
 
 
-const validationMiddleware = (res, req, next) => {
+const validationMiddleware = (req, res, next) => {
     let errors = validationResult(req);
-    console.log(`validator start`)
-    console.log(errors)
     if (!errors.isEmpty()) {
         console.log('error for json')
         return res.json({
