@@ -1,8 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser'); // latest version of exressJS now comes with Body-Parser!
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex')
+require('dotenv').config();
 
 const db = knex({
   // Enter your own database information here based on what you created
@@ -17,7 +17,7 @@ const db = knex({
 
 const app = express();
 
-app.use(cors())
+app.use(cors()) // for cors setting
 app.use(express.json()); // latest version of exressJS now comes with Body-Parser!
 
 
