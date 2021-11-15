@@ -1,7 +1,6 @@
 import {
     Schema,
-    model,
-    SchemaTypes
+    model
 } from 'mongoose';
 import {
     compare,
@@ -15,7 +14,7 @@ import {
 } from '../constants'; 
 import { pick } from 'lodash'
 
-const UserSchema = new SchemaTypes({
+const UserSchema = new Schema({
     name: {
         type: String,
         required: true
