@@ -3,6 +3,7 @@ import consola from 'consola';
 import mongoose from "mongoose";
 import express from "express";
 import { json } from "express";
+import passport from "passport";
 // Import app constants
 import {
     DB,
@@ -10,10 +11,13 @@ import {
     DOMAIN
 } from './constants';
 
-
 // Router
 
 import userApis from "./apis/users";
+
+// passport-middleware
+
+require("./middlewares/passport-middleware")
 
 // Init express
 const app = express();
@@ -22,6 +26,7 @@ const app = express();
 
 app.use(cors());
 app.use(json())
+app.use(passport.initialize())
 
 //Inject Sub router
 app.use('/users', userApis)
@@ -37,7 +42,7 @@ const main = async () => {
         consola.success("DB connected")
         app.listen(PORT, ()=> consola.success(`Server running at ${DOMAIN}`))
     } catch (e) {
-        consola.error(`Unable to start the server \n${err.message}`);
+        consola.error(`Unable to start the server \n${e.message}`);
     }
 }
 
