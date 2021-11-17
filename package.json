@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "node -r esm index.js",
+    "start": "node -r esm",
     "dev": "nodemon -r esm"
   },
   "keywords": [],
