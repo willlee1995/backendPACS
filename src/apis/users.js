@@ -7,6 +7,7 @@ import {
 import Validator from "../middlewares/validator-middleware";
 import { userAuth } from '../middlewares/auth-guard'
 
+
 const router = Router();
 
 /**
@@ -71,9 +72,7 @@ router.post(
                 message: "Username/Password is not correct"
             })
         }
-        console.log(password)
         let passwordIsValid = await userIsValid.comparePassword(password)
-        console.log(passwordIsValid)
         if(!passwordIsValid) {
             return res.status(401).json({
                 success: false,

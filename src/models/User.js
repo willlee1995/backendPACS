@@ -24,7 +24,8 @@ const UserSchema = new Schema(
     },
     role: {
       type: String,
-      required: true,
+      default: "user",
+      enum:["user", "admin", "ic"]
     },
   },
   {
@@ -33,21 +34,6 @@ const UserSchema = new Schema(
 );
 
 UserSchema.pre("save", async function (next) {
-  // let user = this;
-  // if (!user.isModified("password")) return next();
-  // await genSalt(10, (err, salt)=>{
-  //     if (err) {
-  //         return next(err)
-  //     }
-  //     user.password = hash(user.password, salt, null, (err, hash) =>{
-  //         if (err) {
-  //             return next(err);
-  //         }
-  //         user.password = hash
-  //     } )
-  // })
-
-  // next();
   let user = this;
   if (!user.isModified("password")) return next();
   user.password = await hash(user.password, 10);

@@ -1,7 +1,7 @@
 {
-  "name": "node",
-  "version": "1.0.0",
-  "main": "script.js",
+  "name": "Backend for PACMAN",
+  "version": "0.0.1",
+  "main": "index.js",
   "scripts": {
     "start": "node -r esm",
     "dev": "nodemon -r esm"
@@ -19,6 +19,7 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
+    "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.11",
     "lodash": "^4.17.21",

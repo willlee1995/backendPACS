@@ -16,6 +16,7 @@ const opts = {
           throw new Error("User not found.");
         }
         return done(null, user.getUserInfo());
+        
       } catch (err) {
         done(null, false);
       }

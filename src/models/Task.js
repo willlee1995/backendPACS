@@ -43,10 +43,18 @@ const TaskSchema = new Schema ({
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: "users"
+    },
+    slug: {
+        type: String,
+        required: true
     }
 }, {timestamps: true})
 
 TaskSchema.plugin(Paginator);
+
+TaskSchema.methods.getTaskInfo = function () {
+    return pick(this, ["_id", "title", "status", "startDate", "issuer", "createdBy"]);
+  };
 
 const Task = model("tasks", TaskSchema)
 
