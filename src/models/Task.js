@@ -1,61 +1,89 @@
-import { Schema, model } from "mongoose"
-import Paginator from  "mongoose-paginate-v2"
+import { Schema, model } from "mongoose";
+import Paginator from "mongoose-paginate-v2";
 
-const TaskSchema = new Schema ({
+const TaskSchema = new Schema(
+  {
     title: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     status: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     startDate: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
     endDate: {
-        type: Date,
-        required: false
+      type: Date,
+      required: false,
     },
     deadline: {
-        type: Date,
-        required: false
+      type: Date,
+      required: false,
     },
     location: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     details: {
-        type: String,
-        required: false
+      type: String,
+      required: false,
     },
     issuer: {
-        ref: "users",
-        type: Schema.Types.ObjectId,
-        required: true
+      ref: "users",
+      type: Schema.Types.ObjectId,
+      required: true,
     },
     handler: {
-        ref: "users",
-        type: Schema.Types.ObjectId,
-        required: false
+      ref: "users",
+      type: Schema.Types.ObjectId,
+      required: false,
     },
     createdBy: {
-        type: Schema.Types.ObjectId,
-        ref: "users"
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+    urgent: {
+        type: Boolean,
+        required: true
+    },
+    category: {
+      type: String,
+      default: "it support",
+      enum: [
+        "it support",
+        "error handling",
+        "documentation",
+        "server maintainence",
+        "stock taking",
+        "external film handling",
+        "export local film",
+        "others"
+      ],
     },
     slug: {
-        type: String,
-        required: true
-    }
-}, {timestamps: true})
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
 TaskSchema.plugin(Paginator);
 
 TaskSchema.methods.getTaskInfo = function () {
-    return pick(this, ["_id", "title", "status", "startDate", "issuer", "createdBy"]);
-  };
+  return pick(this, [
+    "_id",
+    "title",
+    "status",
+    "startDate",
+    "issuer",
+    "createdBy",
+  ]);
+};
 
-const Task = model("tasks", TaskSchema)
+const Task = model("tasks", TaskSchema);
 
-export default Task
+export default Task;
