@@ -124,21 +124,47 @@ router.get('/api/get-task', userAuth, async (req, res) => {
  * @type GET
  */
 
- router.get('/api/get-recent', userAuth, async (req, res) => {
-  try{
-    let task = await Task.find( { $and:[{urgent: true},{$or: [{status: "in progress"},{status: "pending"}]}]}).sort({startDate: 1}).limit(5)
-    console.log(task)
-    return res.status(200).json({
-      success: true,
-      message: task
-    })
-  } catch(e) {
-    return res.status(400).json({
-      success: false,
-      message: `${e}`
-    })
-  }
-  
+router.get('/api/get-recent', userAuth, async (req, res) => {
+try{
+  let task = await Task.find( { $and:[{urgent: true},{$or: [{status: "in progress"},{status: "pending"}]}]}).sort({startDate: 1}).limit(5)
+  console.log(task)
+  return res.status(200).json({
+    success: true,
+    message: task
+  })
+} catch(e) {
+  return res.status(400).json({
+    success: false,
+    message: `${e}`
+  })
+}
+
+})
+
+/**
+ * @description To get a list of recent 5 tasks by authenticated user
+ *              
+ * @api /tasks/api/get-recent
+ * @access private
+ * @type GET
+ */
+
+router.get('/api/get-outstanding', userAuth, async (req, res) => {
+try{
+  let taskQuery = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]})
+  let taskNumber = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]}).count()
+  return res.status(200).json({
+    success: true,
+    number: taskNumber,
+    message: taskQuery
+  })
+} catch(e) {
+  return res.status(400).json({
+    success: false,
+    message: `${e}`
+  })
+}
+
 })
 
 export default router;
