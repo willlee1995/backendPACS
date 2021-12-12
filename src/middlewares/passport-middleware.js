@@ -3,14 +3,22 @@ import { User } from '../models';
 import { SECRET as secretOrKey} from '../constants';
 import { Strategy as JWTStrategy, ExtractJwt} from 'passport-jwt'
 
+var cookieExtractor = function(req) {
+  var token = null;
+  console.log(req.cookies)
+  if (req && req.cookies) token = req.cookies['auth'];
+  console.log(token)
+  return token;
+};
 const opts = {
     secretOrKey,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("Bearer"),
+    jwtFromRequest: cookieExtractor,
   };
   
   passport.use(
     new JWTStrategy(opts, async ({ id }, done) => {
       try {
+        
         let user = await User.findById(id);
         if (!user) {
           throw new Error("User not found.");
@@ -18,7 +26,7 @@ const opts = {
         return done(null, user.getUserInfo());
         
       } catch (err) {
-        done(null, false);
+        done(err, false);
       }
     })
   );
