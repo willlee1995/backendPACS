@@ -79,7 +79,14 @@ router.put('/api/update-task/:id', taskValidations, validator, userAuth, async (
       })
 
     }
-    task = await Task.findOneAndUpdate({ _id: id}, {...body, slug: SlugGenerator(body.title)},{ new: true})
+    task = await Task.findOneAndUpdate({
+      _id: id
+    }, {
+      ...body,
+      slug: SlugGenerator(body.title)
+    }, {
+      new: true
+    })
     return res.status(200).json({
       task,
       success: true,
@@ -92,4 +99,31 @@ router.put('/api/update-task/:id', taskValidations, validator, userAuth, async (
     })
   }
 })
+
+/**
+ * @description To get a specific task by the authenticated User
+ * @api /tasks/api/get-task
+ * @access private
+ * @type GET
+ */
+
+ router.get('/api/get-task/:id', taskValidations, validator, userAuth, async (req, res) => {
+  try {
+    let {
+      id
+    } = req.params;
+    let task = await Task.findById(id);
+    return res.status(200).json({
+      task,
+      success: true,
+      message: `You got your post`
+    })
+  } catch (e) {
+    return res.status(400).json({
+      success: false,
+      message: `Unable to fetch the post, maybe something wrong in your request${e}`
+    })
+  }
+})
+
 export default router;
