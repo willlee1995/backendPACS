@@ -59,16 +59,16 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
  * @type PUT
  */
 
-router.put('/api/update-task/:id', taskValidations, validator, userAuth, async (req, res) => {
+router.put('/api/update-task/:slug', taskValidations, validator, userAuth, async (req, res) => {
   try {
     let {
-      id
+      slug
     } = req.params;
     let {
       body,
       user
     } = req
-    let task = await Task.findById(id);
+    let task = await Task.find({slug: slug}).exec();
     if (
       task.createdBy.toString() !== user._id.toString() &&
       task.issuer.toString() !== user._id.toString() &&
@@ -123,18 +123,18 @@ router.get('/api/get-task', userAuth, async (req, res) => {
   
 })
 /**
- * @description To get a specific task by the authenticated User
- * @api /tasks/api/get-task
+ * @description To get a specific task by the authenticated User using slug
+ * @api /tasks/api/get-task/:slug
  * @access private
  * @type GET
  */
 
- router.get('/api/get-task/:id', taskValidations, validator, userAuth, async (req, res) => {
+ router.get('/api/get-task/:slug', validator, userAuth, async (req, res) => {
   try {
     let {
-      id
+      slug
     } = req.params;
-    let task = await Task.findById(id);
+    let task = await Task.find({slug: slug}).exec();
     return res.status(200).json({
       task,
       success: true,
@@ -148,16 +148,18 @@ router.get('/api/get-task', userAuth, async (req, res) => {
   }
 })
 /**
- * @description To get a list of recent 5 tasks by authenticated user
+ * @description To get a list of recent tasks of defined number in params by authenticated user
  *              
- * @api /tasks/api/get-recent
+ * @api /tasks/api/get-recent/:number
  * @access private
  * @type GET
  */
 
-router.get('/api/get-recent', userAuth, async (req, res) => {
+router.get('/api/get-recent/:number', userAuth, async (req, res) => {
+  
 try{
-  let task = await Task.find( { $and:[{urgent: true},{$or: [{status: "in progress"},{status: "pending"}]}]}).sort({startDate: 1}).limit(5)
+  let { number } = req.params
+  let task = await Task.find( { $and:[{urgent: true},{$or: [{status: "in progress"},{status: "pending"}]}]}).sort({startDate: 1}).limit(parseInt(number))
   console.log(task)
   return res.status(200).json({
     success: true,
@@ -181,12 +183,12 @@ try{
 
 router.get('/api/get-outstanding', userAuth, async (req, res) => {
 try{
-  let taskQuery = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]})
+  //let taskQuery = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]})
   let taskNumber = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]}).count()
   return res.status(200).json({
     success: true,
     number: taskNumber,
-    message: taskQuery
+    //message: taskQuery
   })
 } catch(e) {
   return res.status(400).json({

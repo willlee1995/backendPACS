@@ -1,7 +1,14 @@
 import { check } from "express-validator";
+import {
+    Task
+  } from "../models";
 
-
-const title = check("title", "Title is required").not().isEmpty();
+const title = check("title").not().isEmpty().withMessage("The title should not be empty").custom(value => {
+    return Task.findOne({where: {title : value}})
+    .then(() => {
+        return Promise.reject('Title is already taken')
+    })
+});
 const status = check("status", "status is required").not().isEmpty();
 const startDate = check("startDate", "startDate is required").not().isEmpty();
 const location = check("location", "location is required").not().isEmpty();

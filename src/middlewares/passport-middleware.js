@@ -5,7 +5,7 @@ import { Strategy as JWTStrategy, ExtractJwt} from 'passport-jwt'
 
 const opts = {
     secretOrKey,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("Bearer"),
   };
   
   passport.use(

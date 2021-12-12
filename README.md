@@ -11,3 +11,5 @@
 ### MongoDB with mongoose
 
 ### RESTful API
+
+### Helper function for slug generation for better access  
