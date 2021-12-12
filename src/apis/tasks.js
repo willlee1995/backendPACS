@@ -173,9 +173,8 @@ try{
 })
 
 /**
- * @description To get a list of recent 5 tasks by authenticated user
- *              
- * @api /tasks/api/get-recent
+ * @description To get number of outstanding tasks
+ * @api /tasks/api/get-outstanding
  * @access private
  * @type GET
  */
