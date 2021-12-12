@@ -146,6 +146,7 @@ router.get('/api/get-task', userAuth, async (req, res) => {
       message: `Unable to fetch the post, maybe something wrong in your request${e}`
     })
   }
+})
 /**
  * @description To get a list of recent 5 tasks by authenticated user
  *              
