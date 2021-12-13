@@ -87,13 +87,13 @@ router.post(
       }
       let token = await userIsValid.generateJWT();
       return res
-        .header("Access-Control-Allow-Origin", "*")
-        .header("Access-Control-Allow-Methods", "*")
-        .header(
+        .setheader("Access-Control-Allow-Origin", "*")
+        .setheader("Access-Control-Allow-Methods", "*")
+        .setheader(
           "Access-Control-Allow-Headers",
           "Origin, Methods, Content-Type, Authorization"
         )
-        .header("Access-Control-Allow-Credentials", true)
+        .setheader("Access-Control-Allow-Credentials", true)
         .cookie("auth", token, {
           httpOnly: true,
           secure: true, //change after production
