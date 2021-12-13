@@ -28,7 +28,7 @@ const app = express();
 // middlewares
 
 app.use(helmet())
-app.use(cors({origin: '*',  credentials: true}));
+//app.use(cors({origin: '*',  credentials: true}));
 app.use(json())
 app.use(cookieParser())
 app.use(passport.initialize())
