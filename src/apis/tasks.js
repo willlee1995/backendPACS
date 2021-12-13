@@ -142,7 +142,7 @@ try{
 })
 
 /**
- * @description To get a list of recent 5 tasks by authenticated user
+ * @description To get a list of oustadning tasks by authenticated user and the numbers of outstanding task
  *              
  * @api /tasks/api/get-recent
  * @access private
@@ -151,12 +151,11 @@ try{
 
 router.get('/api/get-outstanding', userAuth, async (req, res) => {
 try{
-  let taskQuery = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]})
+  
   let taskNumber = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]}).count()
   return res.status(200).json({
     success: true,
     number: taskNumber,
-    message: taskQuery
   })
 } catch(e) {
   return res.status(400).json({
