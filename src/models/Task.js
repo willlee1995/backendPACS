@@ -34,7 +34,7 @@ const TaskSchema = new Schema(
     issuer: {
       ref: "users",
       type: Schema.Types.ObjectId,
-      required: true,
+      required: false,
     },
     handler: {
       ref: "users",
@@ -44,6 +44,7 @@ const TaskSchema = new Schema(
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "users",
+      required: false,
     },
     urgent: {
         type: Boolean,
@@ -65,7 +66,7 @@ const TaskSchema = new Schema(
     },
     slug: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }

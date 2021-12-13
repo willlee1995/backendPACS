@@ -45,7 +45,9 @@ app.use((req,res,next)=> {
 })
 app.use('/users', userApis)
 app.use('/tasks', taskApis)
-
+app.get('/', (req, res) =>{
+    res.send('hello')
+})
 // main
 const main = async () => {
     try {

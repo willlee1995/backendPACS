@@ -16,6 +16,7 @@ import {
   taskValidations
 } from "../validators/task-validators";
 import SlugGenerator from '../functions/slug-generator'
+import mongoose from "mongoose";
 
 const router = Router();
 
@@ -30,24 +31,24 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
   try {
     // Create a new Post
     let {
-      body
-    } = req;
-    console.log(req)
+      enteredTaskData
+    } = req.body;
+    console.log(enteredTaskData)
     let task = new Task({
-      createdBy: req.user._id,
-      ...body,
-      slug: SlugGenerator(body.title)
+      createdBy: mongoose.Types.ObjectId(req.user._id.valueOf()),
+      ...enteredTaskData,
+      slug: SlugGenerator(enteredTaskData.title)
     });
+    
     await task.save();
-    //   console.log("NEW_POST", post);
+    console.log("NEW_TASK", task);
     return res.status(201).json({
       task,
       success: true,
       message: "Your task is recorded.",
     });
   } catch (err) {
-    console.log(err)
-    return res.status(400).json({
+    return res.status(401).json({
       success: false,
       message: `Unable to create the task. ${err}`
     });
