@@ -111,6 +111,19 @@ router.post(
 );
 
 /**
+ * @description To authenticate an user and get auth token with option
+ * @access Public
+ * @api /users/api/authenticate
+ * @type OPTION
+ *
+ */
+router.options("/api/authenticate",
+AuthenticateValidations,
+Validator,
+async (req, res)=> {
+  return res.status(200)
+})
+/**
  * @description To get an authenticated user and get user's profile
  * @access Public
  * @api /users/api/authenticate
