@@ -77,7 +77,7 @@ router.post(
   Validator,
   async (req, res) => {
     try {
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+      
       let {
         username,
         password
@@ -103,8 +103,8 @@ router.post(
         .cookie('auth', token, {
           httpOnly: true,
           secure: false,
-          maxAge:3600,
-          SameSite=None
+          maxAge: 3600000,
+          sameSite: false,
         })
         .status(200)
         .json({
@@ -114,6 +114,7 @@ router.post(
           user: userIsValid.getUserInfo()
         })
     } catch (e) {
+      console.log(e)
       return res.status(500).json({
         success: false,
         message: `An error occurred ${e}`
