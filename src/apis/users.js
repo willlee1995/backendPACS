@@ -7,7 +7,7 @@ import {
 import Validator from "../middlewares/validator-middleware";
 import { userAuth } from "../middlewares/auth-guard";
 import cookie from "cookie";
-import _ from 'lodash'
+
 
 const router = Router();
 
