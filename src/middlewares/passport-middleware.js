@@ -18,10 +18,10 @@ const opts = {
       try {
         
         let user = await User.findById(id);
+        console.log(user)
         if (!user) {
           throw new Error("User not found.");
         }
-        console.log(user.getUserInfo())
         return done(null, user.getUserInfo());
         
       } catch (err) {
