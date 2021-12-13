@@ -5,6 +5,7 @@ import express from "express";
 import { json } from "express";
 import passport from "passport";
 import helmet from 'helmet'
+import cookieParser from 'cookie-parser'
 // Import app constants
 import {
     DB,
@@ -29,6 +30,7 @@ const app = express();
 app.use(helmet())
 app.use(cors());
 app.use(json())
+app.use(cookieParser())
 app.use(passport.initialize())
 
 //Inject Sub router
@@ -46,7 +48,7 @@ const main = async () => {
             },
         );
         consola.success("DB connected")
-        app.listen(PORT||3000, ()=> consola.success(`Server running at ${PORT}`))
+        app.listen(PORT||3001, ()=> consola.success(`Server running at ${PORT}`))
     } catch (e) {
         consola.error(`Unable to start the server \n${e.message}`);
     }
