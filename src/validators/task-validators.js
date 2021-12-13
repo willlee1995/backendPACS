@@ -10,4 +10,4 @@ import {
 //const issuer = check("issuer", "issuer is required").not().isEmpty();
 
 
-export const taskValidations = [title, status, startDate, location, issuer];
+export const taskValidations = [];
