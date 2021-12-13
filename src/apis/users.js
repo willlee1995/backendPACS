@@ -92,7 +92,7 @@ router.post(
           httpOnly: true,
           secure: false, //change after production
           maxAge: 3600000,
-          // sameSite: "None", // comment after production
+          sameSite: "None", // comment after production
         })
         .status(200)
         .json({
