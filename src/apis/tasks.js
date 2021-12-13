@@ -46,7 +46,7 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
       message: "Your task is recorded.",
     });
   } catch (err) {
-    //console.log(err)
+    console.log(err)
     return res.status(400).json({
       success: false,
       message: `Unable to create the task. ${err}`
