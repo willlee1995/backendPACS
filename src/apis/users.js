@@ -102,7 +102,8 @@ router.post(
         .cookie('auth', token, {
           httpOnly: true,
           secure: false,
-          maxAge:3600
+          maxAge:3600,
+          SameSite=None
         })
         .status(200)
         .json({
