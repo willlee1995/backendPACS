@@ -89,7 +89,7 @@ router.post(
       return res
         .cookie("auth", token, {
           httpOnly: true,
-          secure: true, //change after production
+          secure: false, //change after production
           maxAge: 3600000,
           sameSite: "None", // change after production
         })
