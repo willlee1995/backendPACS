@@ -32,7 +32,7 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
     let {
       body
     } = req;
-    console.log(req)
+    //console.log(req)
     let task = new Task({
       createdBy: req.user._id,
       ...body,
