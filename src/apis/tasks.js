@@ -62,16 +62,17 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
  * @type PUT
  */
 
-router.put('/api/update-task/:slug', taskValidations, validator, userAuth, async (req, res) => {
+router.put('/api/update-task/:_id', taskValidations, validator, userAuth, async (req, res) => {
   try {
     let {
-      slug
+      _id
     } = req.params;
     let {
       body,
       user
     } = req
-    let task = await Task.find({slug: slug}).exec();
+    console.log(user._id.toString())
+    let task = await Task.find({_id: _id}).exec();
     if (
       task.createdBy.toString() !== user._id.toString() &&
       task.issuer.toString() !== user._id.toString() &&
@@ -83,6 +84,55 @@ router.put('/api/update-task/:slug', taskValidations, validator, userAuth, async
 
     }
     task = await Task.findOneAndUpdate({
+      _id: _id
+    }, {
+      ...body,
+      slug: SlugGenerator(body.title)
+    }, {
+      new: true
+    })
+    return res.status(200).json({
+      task,
+      success: true,
+      message: `Update post`
+    })
+  } catch (e) {
+    console.log(e)
+    return res.status(400).json({
+      success: false,
+      message: `Unable ${e}`
+    })
+  }
+})
+/**
+ * In
+ * @description To DELETE a new task by the authenticated User
+ * @api /tasks/api/delete-task
+ * @access private
+ * @type DELETE
+ */
+ router.delete('/api/delete-task/:slug', taskValidations, validator, userAuth, async (req, res) => {
+  try {
+    let {
+      slug
+    } = req.params;
+    let {
+      body,
+      user
+    } = req
+    Task.remove({})
+    let task = await Task.find({slug: slug}).exec();
+    if (
+      task.createdBy.toString() !== user._id.toString() &&
+      task.issuer.toString() !== user._id.toString() &&
+      user.role.toString() !== "admin") {
+      return res.status(401).json({
+        success: false,
+        message: `Task doesnt belong to you or your access level is not enough ${user.role}`
+      })
+
+    }
+    task = await Task.findOne({
       _id: id
     }, {
       ...body,
@@ -102,13 +152,6 @@ router.put('/api/update-task/:slug', taskValidations, validator, userAuth, async
     })
   }
 })
-/**
- * In
- * @description To update a new task by the authenticated User
- * @api /tasks/api/delete-task
- * @access private
- * @type DELETE
- */
 
 /**
  * @description To get a list of tasks by authenticated user

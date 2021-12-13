@@ -7,6 +7,7 @@ import {
 import Validator from "../middlewares/validator-middleware";
 import { userAuth } from "../middlewares/auth-guard";
 import cookie from "cookie";
+import _ from 'lodash'
 
 const router = Router();
 
@@ -89,9 +90,9 @@ router.post(
       return res
         .cookie("auth", token, {
           httpOnly: true,
-          secure: true, //change after production
+          secure: false, //change after production
           maxAge: 3600000,
-          sameSite: "None", // comment after production
+          // sameSite: "None", // comment after production
         })
         .status(200)
         .json({
@@ -113,7 +114,7 @@ router.post(
 
 /**
  * @description To get an authenticated user and get user's profile
- * @access Public
+ * @access Private
  * @api /users/api/authenticate
  * @type GET
  *
@@ -123,5 +124,33 @@ router.get("/api/authenticate", userAuth, async (req, res) => {
   return res.status(200).json({
     user: req.user,
   });
+});
+
+/**
+ * @description To get a list of authenticated user
+ * @access Private
+ * @api /users/api/options
+ * @type GET
+ *
+ */
+
+ router.get("/api/options", userAuth, async (req, res) => {
+  try{
+    let user = await User.find()
+    let name = []
+    for (let i=0; i< user.length; i++) {
+      name.push(user[i].name)
+    }
+    return res.status(200).json({
+      success: true,
+      message: name
+    })
+  } catch(e) {
+    return res.status(400).json({
+      success: false,
+      message: `${e}`
+    })
+  }
+  
 });
 export default router;

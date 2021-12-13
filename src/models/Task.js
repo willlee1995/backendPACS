@@ -33,12 +33,12 @@ const TaskSchema = new Schema(
     },
     issuer: {
       ref: "users",
-      type: Schema.Types.ObjectId,
+      type: String,
       required: false,
     },
     handler: {
       ref: "users",
-      type: Schema.Types.ObjectId,
+      type: String,
       required: false,
     },
     createdBy: {
