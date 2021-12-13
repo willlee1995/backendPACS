@@ -103,8 +103,8 @@ router.post(
         .cookie('auth', token, {
           httpOnly: true,
           secure: false, //change after production
-          maxAge: 3600000
-          // change after production
+          maxAge: 3600000,
+          sameSite: 'None'// change after production
         })
         .status(200)
         .json({
