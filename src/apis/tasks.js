@@ -33,7 +33,7 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
     let {
       enteredTaskData
     } = req.body;
-    console.log(enteredTaskData)
+    
     let task = new Task({
       createdBy: mongoose.Types.ObjectId(req.user._id.valueOf()),
       ...enteredTaskData,
@@ -41,7 +41,7 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
     });
     
     await task.save();
-    console.log("NEW_TASK", task);
+  ;
     return res.status(201).json({
       task,
       success: true,
@@ -71,17 +71,14 @@ router.put('/api/update-task/:_id', taskValidations, validator, userAuth, async 
       body,
       user
     } = req
-    console.log(user._id.toString())
-    let task = await Task.find({_id: _id}).exec();
+    let task = await Task.findById({_id}).exec();
     if (
       task.createdBy.toString() !== user._id.toString() &&
-      task.issuer.toString() !== user._id.toString() &&
       user.role.toString() !== "admin") {
       return res.status(401).json({
         success: false,
         message: `Task doesnt belong to you or your access level is not enough ${user.role}`
       })
-
     }
     task = await Task.findOneAndUpdate({
       _id: _id
@@ -94,10 +91,9 @@ router.put('/api/update-task/:_id', taskValidations, validator, userAuth, async 
     return res.status(200).json({
       task,
       success: true,
-      message: `Update post`
+      message: `Updated task "${task.title}" at ${task.updatedAt}`
     })
   } catch (e) {
-    console.log(e)
     return res.status(400).json({
       success: false,
       message: `Unable ${e}`
@@ -107,45 +103,40 @@ router.put('/api/update-task/:_id', taskValidations, validator, userAuth, async 
 /**
  * In
  * @description To DELETE a new task by the authenticated User
- * @api /tasks/api/delete-task
- * @access private
+ * @api /tasks/api/delete-task/:_id
  * @type DELETE
  */
- router.delete('/api/delete-task/:slug', taskValidations, validator, userAuth, async (req, res) => {
+ router.delete('/api/delete-task/:_id', taskValidations, validator, userAuth, async (req, res) => {
   try {
     let {
-      slug
+      _id
     } = req.params;
     let {
       body,
       user
     } = req
-    Task.remove({})
-    let task = await Task.find({slug: slug}).exec();
+    console.log(mongoose.Types.ObjectId(_id))
+    let task = await Task.findById({_id}).exec();
+    console.log(task)
     if (
       task.createdBy.toString() !== user._id.toString() &&
-      task.issuer.toString() !== user._id.toString() &&
       user.role.toString() !== "admin") {
       return res.status(401).json({
         success: false,
         message: `Task doesnt belong to you or your access level is not enough ${user.role}`
       })
-
     }
-    task = await Task.findOne({
-      _id: id
-    }, {
-      ...body,
-      slug: SlugGenerator(body.title)
-    }, {
-      new: true
+    Task.findByIdAndDelete(_id, function(err){
+      if (err) console.log(err);
+      console.log("Deleted")
     })
     return res.status(200).json({
       task,
       success: true,
-      message: `Update post`
+      message: `Deleted post${_id}`
     })
   } catch (e) {
+    console.log(e)
     return res.status(400).json({
       success: false,
       message: `Unable ${e}`
