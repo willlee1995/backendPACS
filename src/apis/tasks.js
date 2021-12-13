@@ -32,6 +32,7 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
     let {
       body
     } = req;
+    console.log(req)
     let task = new Task({
       createdBy: req.user._id,
       ...body,
@@ -100,7 +101,7 @@ router.put('/api/update-task/:slug', taskValidations, validator, userAuth, async
   }
 })
 /**
- * In progress
+ * In
  * @description To update a new task by the authenticated User
  * @api /tasks/api/delete-task
  * @access private
@@ -166,7 +167,7 @@ router.get('/api/get-recent/:number', userAuth, async (req, res) => {
 try{
   let { number } = req.params
   let task = await Task.find( { $and:[{urgent: true},{$or: [{status: "in progress"},{status: "pending"}]}]}).sort({startDate: 1}).limit(parseInt(number))
-  console.log(task)
+
   return res.status(200).json({
     success: true,
     message: task

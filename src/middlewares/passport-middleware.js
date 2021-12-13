@@ -5,9 +5,7 @@ import { Strategy as JWTStrategy, ExtractJwt} from 'passport-jwt'
 
 var cookieExtractor = function(req) {
   var token = null;
-  console.log(req.cookies)
   if (req && req.cookies) token = req.cookies['auth'];
-  console.log(token)
   return token;
 };
 const opts = {
@@ -23,6 +21,7 @@ const opts = {
         if (!user) {
           throw new Error("User not found.");
         }
+        console.log(user.getUserInfo())
         return done(null, user.getUserInfo());
         
       } catch (err) {

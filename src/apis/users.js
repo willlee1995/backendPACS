@@ -102,9 +102,9 @@ router.post(
       return res
         .cookie('auth', token, {
           httpOnly: true,
-          secure: false,
+          secure: false, //change after production
           maxAge: 3600000,
-          sameSite: false,
+          sameSite: false, // change after production
         })
         .status(200)
         .json({
