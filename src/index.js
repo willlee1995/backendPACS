@@ -34,6 +34,12 @@ app.use(cookieParser())
 app.use(passport.initialize())
 
 //Inject Sub router
+app.use((req,res,next)=> {
+    res.setHeader(
+        'Access-Control-Allow-Origin', 'http://localhost:3000'
+    )
+    next()
+})
 app.use('/users', userApis)
 app.use('/tasks', taskApis)
 
