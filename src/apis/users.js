@@ -8,7 +8,6 @@ import Validator from "../middlewares/validator-middleware";
 import { userAuth } from "../middlewares/auth-guard";
 import cookie from "cookie";
 
-
 const router = Router();
 
 /**
@@ -110,7 +109,36 @@ router.post(
     }
   }
 );
-
+/**
+ * @description To authenticate an user with auth token
+ * @access Public
+ * @api /users/api/authenticate/:token
+ * @type POST
+ *
+ */
+router.post(
+  "/api/authenticate/:token", 
+  Validator,
+  userAuth,
+  async (req, res) => {
+    
+    try {
+      let {token} = req.params
+      if(req.cookies.auth == token) {
+        return res.status(200).json({
+          success: true,
+          ...req.user
+        })
+      }
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({
+        success: false,
+        message: `An error occurred ${e}`,
+      });
+    }
+  }
+);
 
 /**
  * @description To get an authenticated user and get user's profile
@@ -134,23 +162,22 @@ router.get("/api/authenticate", userAuth, async (req, res) => {
  *
  */
 
- router.get("/api/options", userAuth, async (req, res) => {
-  try{
-    let user = await User.find()
-    let name = []
-    for (let i=0; i< user.length; i++) {
-      name.push(user[i].name)
+router.get("/api/options", userAuth, async (req, res) => {
+  try {
+    let user = await User.find();
+    let name = [];
+    for (let i = 0; i < user.length; i++) {
+      name.push(user[i].name);
     }
     return res.status(200).json({
       success: true,
-      message: name
-    })
-  } catch(e) {
+      message: name,
+    });
+  } catch (e) {
     return res.status(400).json({
       success: false,
-      message: `${e}`
-    })
+      message: `${e}`,
+    });
   }
-  
 });
 export default router;

@@ -166,8 +166,8 @@ router.get('/api/get-task', userAuth, async (req, res) => {
   
 })
 /**
- * @description To get a specific task by the authenticated User using slug
- * @api /tasks/api/get-task/:slug
+ * @description To get a specific task by the authenticated User using _id
+ * @api /tasks/api/get-task/:_id
  * @access private
  * @type GET
  */
@@ -177,6 +177,7 @@ router.get('/api/get-task', userAuth, async (req, res) => {
     let {
       _id
     } = req.params;
+    console.log(req.cookies.auth)
     let task = await Task.findById({_id}).exec();
     return res.status(200).json({
       task,
@@ -241,6 +242,34 @@ try{
 }
 
 })
+/**
+ * @description To get detail for the homepage
+ * @api /tasks/api/get-home
+ * @access private
+ * @type GET
+ */
+
+ router.get('/api/get-home', userAuth, async (req, res) => {
+  try{
+    let taskQueryOfOutstanding = await Task.find( { $and:[{urgent: true},{$or: [{status: "inProgress"},{status: "pending"}]}]}).sort({startDate: 1}).limit(5)
+    let taskNumberOfOutstanding = await Task.where( {$or: [{status: "inProgress"},{status: "pending"}]}).count()
+    let taskNumberOfCompleted = await Task.where({status: "completed"}).count()
+    return res.status(200).json({
+      success: true,
+      completedNumber: taskNumberOfCompleted,
+      outstandingNumber: taskNumberOfOutstanding,
+      outstandingTask: taskQueryOfOutstanding,
+      user: req.user
+      //message: taskQuery
+    })
+  } catch(e) {
+    return res.status(400).json({
+      success: false,
+      message: `${e}`
+    })
+  }
+  
+  })
 
 /**
  * @description To get number of outstanding tasks
@@ -248,6 +277,7 @@ try{
  * @access private
  * @type GET
  */
+
  router.get('/api/get-completed', userAuth, async (req, res) => {
   try{
     //let taskQuery = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]})
