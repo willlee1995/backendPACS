@@ -29,8 +29,8 @@ const app = express();
 
 app.use(helmet())
 app.use(cors({
-    //origin: 'http://locahost:3000',
-    origin: 'https://taskmanager-one.vercel.app', //prod
+    origin: 'http://locahost:3000',
+    //origin: 'https://taskmanager-one.vercel.app', //prod
     credentials: true,
 }));
 app.use(json())
@@ -40,8 +40,8 @@ app.use(passport.initialize())
 //Inject Sub router
 app.use((req,res,next)=> {
     res.setHeader(
-        'Access-Control-Allow-Origin', 'https://taskmanager-one.vercel.app' //prod
-        //'Access-Control-Allow-Origin','http://locahost:3000'
+        //'Access-Control-Allow-Origin', 'https://taskmanager-one.vercel.app' //prod
+        'Access-Control-Allow-Origin','http://locahost:3000'
     )
     res.setHeader('Access-Control-Allow-Credentials', true)
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
