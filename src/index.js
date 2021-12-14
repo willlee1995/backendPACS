@@ -29,7 +29,7 @@ const app = express();
 
 app.use(helmet())
 app.use(cors({
-    origin: 'https://taskmanager-1c4s0jpep-breadonf.vercel.app/',
+    origin: 'https://taskmanager-one.vercel.app/',
     credentials: true,
 }));
 app.use(json())
@@ -39,7 +39,7 @@ app.use(passport.initialize())
 //Inject Sub router
 app.use((req,res,next)=> {
     res.setHeader(
-        'Access-Control-Allow-Origin', 'https://taskmanager-1c4s0jpep-breadonf.vercel.app/'
+        'Access-Control-Allow-Origin', 'https://taskmanager-one.vercel.app/'
     )
     next()
 })
