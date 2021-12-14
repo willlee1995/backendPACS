@@ -172,12 +172,12 @@ router.get('/api/get-task', userAuth, async (req, res) => {
  * @type GET
  */
 
- router.get('/api/get-task/:slug', validator, userAuth, async (req, res) => {
+ router.get('/api/get-task/:_id', validator, userAuth, async (req, res) => {
   try {
     let {
-      slug
+      _id
     } = req.params;
-    let task = await Task.find({slug: slug}).exec();
+    let task = await Task.findById({_id}).exec();
     return res.status(200).json({
       task,
       success: true,
