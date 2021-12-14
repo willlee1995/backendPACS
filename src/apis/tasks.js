@@ -202,7 +202,7 @@ router.get('/api/get-recent/:number', userAuth, async (req, res) => {
   
 try{
   let { number } = req.params
-  let task = await Task.find( { $and:[{urgent: true},{$or: [{status: "in progress"},{status: "pending"}]}]}).sort({startDate: 1}).limit(parseInt(number))
+  let task = await Task.find( { $and:[{urgent: true},{$or: [{status: "inProgress"},{status: "pending"}]}]}).sort({startDate: 1}).limit(parseInt(number))
 
   return res.status(200).json({
     success: true,
@@ -227,7 +227,7 @@ try{
 router.get('/api/get-outstanding', userAuth, async (req, res) => {
 try{
   //let taskQuery = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]})
-  let taskNumber = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]}).count()
+  let taskNumber = await Task.where( {$or: [{status: "inProgress"},{status: "pending"}]}).count()
   return res.status(200).json({
     success: true,
     number: taskNumber,
@@ -242,4 +242,27 @@ try{
 
 })
 
+/**
+ * @description To get number of outstanding tasks
+ * @api /tasks/api/get-completed
+ * @access private
+ * @type GET
+ */
+ router.get('/api/get-completed', userAuth, async (req, res) => {
+  try{
+    //let taskQuery = await Task.where( {$or: [{status: "in progress"},{status: "pending"}]})
+    let taskNumber = await Task.where({status: "completed"}).count()
+    return res.status(200).json({
+      success: true,
+      number: taskNumber,
+      //message: taskQuery
+    })
+  } catch(e) {
+    return res.status(400).json({
+      success: false,
+      message: `${e}`
+    })
+  }
+  
+  })
 export default router;
