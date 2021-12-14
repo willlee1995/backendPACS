@@ -117,14 +117,14 @@ router.post(
  *
  */
 router.post(
-  "/api/authenticate/:token", 
+  "/api/authenticate/:_id", 
   Validator,
   userAuth,
   async (req, res) => {
     
     try {
-      let {token} = req.params
-      if(req.cookies.auth == token) {
+      let {_id} = req.params
+      if(req.user._id == _id) {
         return res.status(200).json({
           success: true,
           ...req.user
