@@ -6,7 +6,7 @@ import {
 } from "../validators/user-validator";
 import Validator from "../middlewares/validator-middleware";
 import { userAuth } from "../middlewares/auth-guard";
-import cookie from "cookie";
+
 
 const router = Router();
 
@@ -89,7 +89,8 @@ router.post(
       return res
         .cookie("auth", token, {
           httpOnly: true,
-          secure: true, //change after production
+          secure: true, //prod
+          //secure: false, //test
           maxAge: 3600000,
           sameSite: "None", // comment after production
         })
