@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import Paginator from "mongoose-paginate-v2";
 
+const defaultEndDate = ""
 const TaskSchema = new Schema(
   {
     title: {
