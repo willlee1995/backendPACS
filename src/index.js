@@ -67,7 +67,7 @@ const main = async () => {
             },
         );
         consola.success("DB connected")
-        app.listen(PORT||3001, ()=> consola.success(`Server running at ${PORT}`))
+        app.listen(PORT||3001, ()=> consola.success(`Server running at ${PORT ?PORT: "3001"}`))
     } catch (e) {
         consola.error(`Unable to start the server \n${e.message}`);
     }
