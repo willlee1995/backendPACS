@@ -75,7 +75,7 @@ router.put('/api/update-task/:_id', taskValidations, validator, userAuth, async 
     if (
       task.createdBy.toString() !== user._id.toString() &&
       user.role.toString() !== "admin") {
-      return res.status(401).json({
+      return res.status(402).json({
         success: false,
         message: `Task doesnt belong to you or your access level is not enough ${user.role}`
       })
