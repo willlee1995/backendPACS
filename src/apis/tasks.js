@@ -68,13 +68,14 @@ router.put('/api/update-task/:_id', async (req, res) => {
       _id
     } = req.params;
     let {
-      body,
+      body
     } = req
+
     let task = await Task.findById({_id}).exec();
     task = await Task.findOneAndUpdate({
       _id: _id
     }, {
-      ...body
+      ...body.enteredEditedTaskData
     }, {
       new: true
     })
