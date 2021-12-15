@@ -18,6 +18,7 @@ const TaskSchema = new Schema(
     endDate: {
       type: Date,
       required: false,
+      default: defaultEndDate
     },
     deadline: {
       type: Date,
@@ -74,6 +75,10 @@ const TaskSchema = new Schema(
 
 TaskSchema.plugin(Paginator);
 
+TaskSchema.pre('save', function (next) {
+  this.defaultEndDate = this.get('startDate'); // considering _id is input by client
+  next();
+});
 TaskSchema.methods.getTaskInfo = function () {
   return pick(this, [
     "_id",

@@ -113,7 +113,7 @@ router.post(
 /**
  * @description To authenticate an user with auth token
  * @access Public
- * @api /users/api/authenticate/:token
+ * @api /users/api/authenticate/:_id
  * @type POST
  *
  */
