@@ -72,14 +72,6 @@ router.put('/api/update-task/:_id', taskValidations, validator, userAuth, async 
       user
     } = req
     let task = await Task.findById({_id}).exec();
-    if (
-      task.createdBy.toString() !== user._id.toString() &&
-      user.role.toString() !== "admin") {
-      return res.status(402).json({
-        success: false,
-        message: `Task doesnt belong to you or your access level is not enough ${user.role}`
-      })
-    }
     task = await Task.findOneAndUpdate({
       _id: _id
     }, {
