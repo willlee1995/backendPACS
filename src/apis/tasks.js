@@ -62,14 +62,13 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
  * @type PUT
  */
 
-router.put('/api/update-task/:_id', taskValidations, validator, userAuth, async (req, res) => {
+router.put('/api/update-task/:_id', async (req, res) => {
   try {
     let {
       _id
     } = req.params;
     let {
       body,
-      user
     } = req
     let task = await Task.findById({_id}).exec();
     task = await Task.findOneAndUpdate({
