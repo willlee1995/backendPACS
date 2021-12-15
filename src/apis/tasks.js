@@ -48,7 +48,7 @@ router.post("/api/create-task", userAuth, taskValidations, validator, async (req
       message: "Your task is recorded.",
     });
   } catch (err) {
-    return res.status(401).json({
+    return res.status(404.5).json({
       success: false,
       message: `Unable to create the task. ${err}`
     });
@@ -102,7 +102,7 @@ router.put('/api/update-task/:_id', taskValidations, validator, userAuth, async 
 })
 /**
  * In
- * @description To DELETE a new task by the authenticated User
+ * @description To DELETE a task by the authenticated User
  * @api /tasks/api/delete-task/:_id
  * @type DELETE
  */
