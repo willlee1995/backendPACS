@@ -74,8 +74,7 @@ router.put('/api/update-task/:_id', async (req, res) => {
     task = await Task.findOneAndUpdate({
       _id: _id
     }, {
-      ...body,
-      slug: SlugGenerator(body.title)
+      ...body
     }, {
       new: true
     })
