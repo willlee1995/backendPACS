@@ -76,11 +76,11 @@ const TaskSchema = new Schema(
 
 TaskSchema.plugin(Paginator);
 
-TaskSchema.pre('save', function (next) {
-  this.defaultEndDate = this.get('startDate'); // considering _id is input by client
-  console.log(defaultEndDate)
-  next();
-});
+//TaskSchema.pre('save', function (next) {
+  //this.defaultEndDate = this.get('startDate'); // considering _id is input by client
+  //console.log(defaultEndDate)
+  //next();
+//});
 TaskSchema.methods.getTaskInfo = function () {
   return pick(this, [
     "_id",
