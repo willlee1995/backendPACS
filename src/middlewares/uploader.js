@@ -15,3 +15,5 @@ const upload = multer({
 });
 
 export default upload;
+
+//obsoleted for file uploading

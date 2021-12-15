@@ -263,7 +263,7 @@ try{
   })
 
 /**
- * @description To get number of outstanding tasks
+ * @description To get number of completed tasks
  * @api /tasks/api/get-completed
  * @access private
  * @type GET
